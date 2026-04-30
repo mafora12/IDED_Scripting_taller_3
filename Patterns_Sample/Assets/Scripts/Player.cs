@@ -56,8 +56,7 @@ public class Player : MonoBehaviour
         Target.onTargetDestroyed += AddScore;
 
         movementCommand = gameObject.GetComponent<MovementCommand>();
-        shootCommand = gameObject.GetComponent<ShootCommand>();
-        shootCommand = gameObject.GetComponent<ShootCommand>();
+        shootCommand = gameObject.GetComponent<ShootCommand>(); 
 
         currentShoot = shootCommand;
         ActivateTripleShot(5f);
@@ -93,20 +92,13 @@ public class Player : MonoBehaviour
 
         if (HVal != 0F)
         {
-            //if (movementCommand != null)
-            //{
-            //    movementCommand.Execute();
-            //}
             movementCommand?.Execute();
         }
 
         if (Input.GetButtonDown("Fire1"))
         {
-            shootCommand?.Execute();
-        }
-        if (Input.GetButtonDown("Fire1"))
-        {
-            currentShoot?.Shoot();
+           
+            currentShoot?.Shoot(); 
         }
     }
     public void ActivateTripleShot(float duration)

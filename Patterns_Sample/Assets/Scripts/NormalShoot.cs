@@ -1,10 +1,9 @@
-using UnityEngine;
-
-public class NormalShoot : IShoot
+public class NormalShoot : ShootDecorator
 {
-    public void Shoot()
+    public NormalShoot(IShoot shoot) : base(shoot) { }
+
+    public override void Shoot()
     {
-        ShootCommand shoot = GameObject.FindObjectOfType<ShootCommand>();
-        shoot?.Execute();
+        base.Shoot(); 
     }
 }

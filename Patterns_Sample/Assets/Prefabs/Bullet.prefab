@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6416134472767822685}
   - component: {fileID: 5769844902801545485}
   - component: {fileID: 4259895327710280015}
+  - component: {fileID: -6583052603228976303}
   m_Layer: 11
   m_Name: Bullet
   m_TagString: Untagged
@@ -153,3 +154,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e159f1103380ff84fb403163c226808a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
+--- !u!114 &-6583052603228976303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2964337092940765685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6ffb1a118247af4095b52ed68ce2ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Target
+  maxHP: 1
+  scoreAdd: 10

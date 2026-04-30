@@ -17,22 +17,11 @@ public class Target : MonoBehaviour, IFactoryProduct
 
     public static event OnTargetDestroyed onTargetDestroyed;
 
-    private void OnEnable()
+    private void Start()
     {
         currentHP = maxHP;
-        Invoke(nameof(ReturnToPool), TIME_TO_DESTROY);
+        Destroy(gameObject, TIME_TO_DESTROY);
     }
-
-    private void OnDisable()
-    {
-        CancelInvoke();
-    }
-
-    private void ReturnToPool()
-    {
-        pool?.Return(this);
-    }
-    
 
     private void OnCollisionEnter(Collision collision)
     {
