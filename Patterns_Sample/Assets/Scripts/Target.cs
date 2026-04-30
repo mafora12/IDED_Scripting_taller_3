@@ -36,14 +36,20 @@ public class Target : MonoBehaviour, IFactoryProduct
             if (currentHP <= 0)
             {
                 onTargetDestroyed?.Invoke(scoreAdd);
-                Destroy(gameObject);
+                pool.Return(this);
             }
         }
         else if (collidedObjectLayer.Equals(Utils.PlayerLayer) ||
             collidedObjectLayer.Equals(Utils.KillVolumeLayer))
         {
             Player.Instance.OnPlayerHit?.Invoke();
-            Destroy(gameObject);
+            pool.Return(this);
         }
+    }
+    private TargetPool pool;
+
+    public void SetPool(TargetPool p)
+    {
+        pool = p;
     }
 }

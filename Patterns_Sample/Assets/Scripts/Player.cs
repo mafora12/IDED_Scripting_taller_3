@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
 
     public Action OnPlayerDied;
     public Action OnPlayerHit;
+    private IShoot currentShoot;
 
     public static Player Instance => instance;
 
@@ -55,6 +57,10 @@ public class Player : MonoBehaviour
 
         movementCommand = gameObject.GetComponent<MovementCommand>();
         shootCommand = gameObject.GetComponent<ShootCommand>();
+        shootCommand = gameObject.GetComponent<ShootCommand>();
+
+        currentShoot = shootCommand;
+        ActivateTripleShot(5f);
     }
 
     private void PlayerHit()
@@ -71,7 +77,7 @@ public class Player : MonoBehaviour
 
     private void PlayerDied()
     {
-        //OnPlayerDied -= PlayerDied;
+       
         OnPlayerDied = null;
         OnPlayerHit = null;
         Target.onTargetDestroyed -= AddScore;
@@ -98,5 +104,23 @@ public class Player : MonoBehaviour
         {
             shootCommand?.Execute();
         }
+        if (Input.GetButtonDown("Fire1"))
+        {
+            currentShoot?.Shoot();
+        }
+    }
+    public void ActivateTripleShot(float duration)
+    {
+        StopAllCoroutines();
+        StartCoroutine(TripleShotRoutine(duration));
+    }
+
+    private IEnumerator TripleShotRoutine(float duration)
+    {
+        currentShoot = new TripleShootDecorator(shootCommand, this);
+
+        yield return new WaitForSeconds(duration);
+
+        currentShoot = shootCommand; 
     }
 }
