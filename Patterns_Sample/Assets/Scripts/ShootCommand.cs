@@ -1,30 +1,17 @@
 using UnityEngine;
 
-public class ShootCommand : MonoBehaviour, ICommand
+public void Execute()
 {
-    #region Bullet
+    Shoot();
+}
 
-    [Header("Bullet")]
-    [SerializeField]
-    private Rigidbody bullet;
-
-    [SerializeField]
-    private float bulletSpeed = 3F;
-
-    #endregion Bullet
-
-    private Transform BulletSpawnPoint => Player.Instance.BulletSpawnPoint;
-
-    private bool CanShoot => BulletSpawnPoint != null && bullet != null;
-
-    public void Execute()
+public void Shoot()
+{
+    if (CanShoot)
     {
-        if (CanShoot)
-        {
-            Bullet bullet = Pool.Instance.GetBullet();
-            bullet.transform.position = BulletSpawnPoint.position;
-            bullet.transform.rotation = BulletSpawnPoint.rotation;
-            bullet.Rigidbody.AddForce(transform.up * bulletSpeed, ForceMode.Impulse);
-        }
+        Bullet bullet = Pool.Instance.GetBullet();
+        bullet.transform.position = BulletSpawnPoint.position;
+        bullet.transform.rotation = BulletSpawnPoint.rotation;
+        bullet.Rigidbody.AddForce(transform.up * bulletSpeed, ForceMode.Impulse);
     }
 }
