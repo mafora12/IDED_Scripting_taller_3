@@ -17,11 +17,22 @@ public class Target : MonoBehaviour, IFactoryProduct
 
     public static event OnTargetDestroyed onTargetDestroyed;
 
-    private void Start()
+    private void OnEnable()
     {
         currentHP = maxHP;
-        Destroy(gameObject, TIME_TO_DESTROY);
+        Invoke(nameof(ReturnToPool), TIME_TO_DESTROY);
     }
+
+    private void OnDisable()
+    {
+        CancelInvoke();
+    }
+
+    private void ReturnToPool()
+    {
+        pool?.Return(this);
+    }
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -36,14 +47,14 @@ public class Target : MonoBehaviour, IFactoryProduct
             if (currentHP <= 0)
             {
                 onTargetDestroyed?.Invoke(scoreAdd);
-                pool.Return(this);
+                pool?.Return(this);
             }
         }
         else if (collidedObjectLayer.Equals(Utils.PlayerLayer) ||
             collidedObjectLayer.Equals(Utils.KillVolumeLayer))
         {
             Player.Instance.OnPlayerHit?.Invoke();
-            pool.Return(this);
+            pool?.Return(this);
         }
     }
     private TargetPool pool;

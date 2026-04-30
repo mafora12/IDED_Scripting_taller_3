@@ -13,28 +13,44 @@ public class SpawnController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (TargetFactory.Instance != null)
+
+        Invoke(nameof(StartRepeating), 0.5f);
+    }
+
+    private void StartRepeating()
+    {
+        if (TargetFacade.Instance != null)
         {
             InvokeRepeating("SpawnObject", firstSpawnDelay, spawnRate);
-
             if (Player.Instance != null)
-            {
                 Player.Instance.OnPlayerDied += StopSpawning;
-            }
+        }
+        else
+        {
+            Debug.LogError("No se encontró el TargetFacade en la escena.");
         }
     }
 
     private void SpawnObject()
     {
-        GameObject spawnGO = TargetFactory.Instance.CreateInstance().gameObject;
+        Target target = TargetFacade.Instance.GetTarget();
 
-        if (spawnGO != null)
+        if (target != null)
         {
-            spawnPoint = Camera.main.ViewportToWorldPoint(new Vector3(
-                Random.Range(0F, 1F), 1F, transform.position.z));
 
-            spawnGO.transform.position = spawnPoint;
-            spawnGO.transform.rotation = Quaternion.identity;
+            spawnPoint = Camera.main.ViewportToWorldPoint(new Vector3(
+                Random.Range(0.1F, 0.9F), 1.1F, Mathf.Abs(Camera.main.transform.position.z)
+            ));
+
+
+            target.transform.SetParent(null);
+
+            target.transform.position = spawnPoint;
+            target.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("El Facade no devolvió ningún Target. Revisa los Pools.");
         }
     }
 

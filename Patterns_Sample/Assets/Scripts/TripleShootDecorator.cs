@@ -20,7 +20,7 @@ public class TripleShootDecorator : ShootDecorator
         for (int i = 0; i < 3; i++)
         {
             wrappee.Shoot();
-            yield return new WaitForSeconds(0.2f); // secuencial
+            yield return new WaitForSeconds(0.2f); 
         }
     }
 }
